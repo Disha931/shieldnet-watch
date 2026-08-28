@@ -215,8 +215,9 @@ function Index() {
           className="mt-8 flex flex-col gap-3 sm:flex-row"
           onSubmit={(e) => {
             e.preventDefault();
-            if (host.trim()) mutation.mutate(host.trim());
+            runScan(host);
           }}
+
         >
           <Input
             value={host}
