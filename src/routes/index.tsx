@@ -15,9 +15,12 @@ import {
 
 import { scanNetwork } from "@/lib/scan.functions";
 import type { Finding, ScanReport, Severity } from "@/lib/scan.server";
+import { useScanHistory } from "@/lib/scan-history";
 import { LocalConnectionAudit } from "@/components/LocalConnectionAudit";
+import { ScanHistory } from "@/components/ScanHistory";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
