@@ -181,9 +181,19 @@ function Meta({
 function Index() {
   const [host, setHost] = useState("");
   const scan = useServerFn(scanNetwork);
+  const history = useScanHistory();
   const mutation = useMutation({
     mutationFn: (h: string) => scan({ data: { host: h } }),
+    onSuccess: (report) => history.record(report as ScanReport),
   });
+
+  const runScan = (h: string) => {
+    const trimmed = h.trim();
+    if (!trimmed) return;
+    setHost(trimmed);
+    mutation.mutate(trimmed);
+  };
+
 
   return (
     <main className="min-h-screen px-4 py-12">
