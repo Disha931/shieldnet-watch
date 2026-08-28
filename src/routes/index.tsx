@@ -254,8 +254,18 @@ function Index() {
         {mutation.data ? <Report r={mutation.data as ScanReport} /> : null}
 
         <div className="mt-10">
+          <ScanHistory
+            entries={history.entries}
+            onRerun={runScan}
+            onRemove={history.remove}
+            onClear={history.clear}
+          />
+        </div>
+
+        <div className="mt-10">
           <LocalConnectionAudit />
         </div>
+
       </div>
     </main>
   );
