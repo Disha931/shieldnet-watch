@@ -256,7 +256,7 @@ export async function runScan(rawHost: string): Promise<ScanReport> {
           severity: "pass",
           category: "HTTP hardening",
           detail: "Header is configured.",
-          evidence: headers[check.key],
+          evidence: headers[check.key] ?? "",
         });
       } else {
         findings.push({
@@ -271,7 +271,7 @@ export async function runScan(rawHost: string): Promise<ScanReport> {
     }
 
     const banners = ["server", "x-powered-by", "x-aspnet-version"].filter((k) => headers[k]);
-    if (banners.some((k) => /\d/.test(headers[k]))) {
+    if (banners.some((k) => /\d/.test(headers[k] ?? ""))) {
       findings.push({
         id: "banner-disclosure",
         title: "Software version disclosed in response headers",
@@ -279,7 +279,7 @@ export async function runScan(rawHost: string): Promise<ScanReport> {
         category: "Information exposure",
         detail:
           "Version strings let an attacker map the host to known CVEs before ever touching it.",
-        evidence: banners.map((k) => `${k}: ${headers[k]}`).join(" | "),
+        evidence: banners.map((k) => `${k}: ${headers[k] ?? ""}`).join(" | "),
         remediation: "Strip or genericise Server / X-Powered-By headers at the edge.",
       });
     }
