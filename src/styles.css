@@ -2,6 +2,11 @@
 @source "../src";
 @import "tw-animate-css";
 
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 /*
@@ -59,42 +64,55 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-sev-critical: var(--sev-critical);
+  --color-sev-high: var(--sev-high);
+  --color-sev-medium: var(--sev-medium);
+  --color-sev-low: var(--sev-low);
+  --color-sev-info: var(--sev-info);
+  --color-sev-pass: var(--sev-pass);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --radius: 0.5rem;
+  --background: oklch(0.16 0.02 250);
+  --foreground: oklch(0.94 0.01 240);
+  --card: oklch(0.2 0.022 252);
+  --card-foreground: oklch(0.94 0.01 240);
+  --popover: oklch(0.2 0.022 252);
+  --popover-foreground: oklch(0.94 0.01 240);
+  --primary: oklch(0.8 0.17 165);
+  --primary-foreground: oklch(0.17 0.03 170);
+  --secondary: oklch(0.27 0.03 252);
+  --secondary-foreground: oklch(0.94 0.01 240);
+  --muted: oklch(0.25 0.025 252);
+  --muted-foreground: oklch(0.68 0.02 250);
+  --accent: oklch(0.72 0.15 235);
+  --accent-foreground: oklch(0.16 0.02 250);
+  --destructive: oklch(0.63 0.22 22);
+  --destructive-foreground: oklch(0.97 0.01 20);
+  --border: oklch(0.3 0.03 252);
+  --input: oklch(0.3 0.03 252);
+  --ring: oklch(0.8 0.17 165);
+  --sev-critical: oklch(0.58 0.24 18);
+  --sev-high: oklch(0.7 0.19 45);
+  --sev-medium: oklch(0.82 0.16 85);
+  --sev-low: oklch(0.75 0.13 210);
+  --sev-info: oklch(0.68 0.02 250);
+  --sev-pass: oklch(0.8 0.17 165);
+  --grid-line: oklch(0.24 0.03 252);
+  --chart-1: oklch(0.8 0.17 165);
+  --chart-2: oklch(0.72 0.15 235);
+  --chart-3: oklch(0.82 0.16 85);
+  --chart-4: oklch(0.7 0.19 45);
+  --chart-5: oklch(0.58 0.24 18);
+  --sidebar: oklch(0.18 0.02 250);
+  --sidebar-foreground: oklch(0.94 0.01 240);
+  --sidebar-primary: oklch(0.8 0.17 165);
+  --sidebar-primary-foreground: oklch(0.17 0.03 170);
+  --sidebar-accent: oklch(0.27 0.03 252);
+  --sidebar-accent-foreground: oklch(0.94 0.01 240);
+  --sidebar-border: oklch(0.3 0.03 252);
+  --sidebar-ring: oklch(0.8 0.17 165);
 }
 
 .dark {
@@ -141,4 +159,36 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+@layer base {
+  body {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+}
+
+@utility scanline {
+  position: relative;
+  overflow: hidden;
+}
+@utility scanline {
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    animation: sweep 1.4s linear infinite;
+  }
+}
+
+@keyframes sweep {
+  0% { top: 0; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
 }
