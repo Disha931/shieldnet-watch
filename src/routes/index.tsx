@@ -15,9 +15,12 @@ import {
 
 import { scanNetwork } from "@/lib/scan.functions";
 import type { Finding, ScanReport, Severity } from "@/lib/scan.server";
+import { useScanHistory } from "@/lib/scan-history";
 import { LocalConnectionAudit } from "@/components/LocalConnectionAudit";
+import { ScanHistory } from "@/components/ScanHistory";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -178,9 +181,19 @@ function Meta({
 function Index() {
   const [host, setHost] = useState("");
   const scan = useServerFn(scanNetwork);
+  const history = useScanHistory();
   const mutation = useMutation({
     mutationFn: (h: string) => scan({ data: { host: h } }),
+    onSuccess: (report) => history.record(report as ScanReport),
   });
+
+  const runScan = (h: string) => {
+    const trimmed = h.trim();
+    if (!trimmed) return;
+    setHost(trimmed);
+    mutation.mutate(trimmed);
+  };
+
 
   return (
     <main className="min-h-screen px-4 py-12">
@@ -202,8 +215,9 @@ function Index() {
           className="mt-8 flex flex-col gap-3 sm:flex-row"
           onSubmit={(e) => {
             e.preventDefault();
-            if (host.trim()) mutation.mutate(host.trim());
+            runScan(host);
           }}
+
         >
           <Input
             value={host}
@@ -240,8 +254,18 @@ function Index() {
         {mutation.data ? <Report r={mutation.data as ScanReport} /> : null}
 
         <div className="mt-10">
+          <ScanHistory
+            entries={history.entries}
+            onRerun={runScan}
+            onRemove={history.remove}
+            onClear={history.clear}
+          />
+        </div>
+
+        <div className="mt-10">
           <LocalConnectionAudit />
         </div>
+
       </div>
     </main>
   );
